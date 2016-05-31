@@ -1,0 +1,5 @@
+build/
+dist/
+pylambda.egg-info/
+*.pyc
+*.sublime*
