@@ -22,15 +22,15 @@ d = 'foo'
 
 class TestAssert(unittest.TestCase):
     def __init__(self, statement, expected_message, *args, **kwargs):
-        super().__init__(*args, *kwargs)
+        super(TestAssert, self).__init__(*args, **kwargs)
         self.statement = statement
         self.expected_message = expected_message
 
     def runTest(self):
         with open(TEMPFILE, 'w') as f:
             f.write(SOURCE.format(statement=self.statement))
-        result = subprocess.run([sys.executable, TEMPFILE], stderr=subprocess.PIPE)
-        assert_message = result.stderr.decode('utf8').splitlines()[-1]
+        result = subprocess.Popen([sys.executable, TEMPFILE], stderr=subprocess.PIPE)
+        assert_message = result.stderr.read().decode('utf8').splitlines()[-1]
         self.assertEqual(assert_message, self.expected_message)
 
     def __str__(self):
