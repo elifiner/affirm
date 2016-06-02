@@ -1,6 +1,6 @@
 build/
 dist/
-pylambda.egg-info/
+*.egg-info/
 *.pyc
 *.sublime*
 temp.py
