@@ -3,3 +3,4 @@ dist/
 pylambda.egg-info/
 *.pyc
 *.sublime*
+temp.py
