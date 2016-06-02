@@ -38,13 +38,17 @@ def make_assert_message(frame):
         def visit_Name(self, node):
             self.names.append(node.id)
 
-    code = inspect.getframeinfo(frame)[3][0]
-    condition = code.strip()[len('assert '):]
-    deref = ReferenceFinder().find(ast.parse(condition), frame)
-    deref_str = ''
-    if deref:
-        deref_str = ' with ' + ', '.join('{}={}'.format(k, v) for k, v in deref.items())
-    return 'assertion ({}) failed{}'.format(condition, deref_str)
+    code_context = inspect.getframeinfo(frame)[3]
+    if not code_context:
+        return ''
+    else:
+        code = code_context[0]
+        condition = code.strip()[len('assert '):]
+        deref = ReferenceFinder().find(ast.parse(condition), frame)
+        deref_str = ''
+        if deref:
+            deref_str = ' with ' + ', '.join('{}={}'.format(k, v) for k, v in deref.items())
+        return 'assertion ({}) failed{}'.format(condition, deref_str)
 
 import sys
 _old_excepthook = sys.excepthook
@@ -58,26 +62,10 @@ def assert_excepthook(type, value, traceback):
         from traceback import print_exception
         if not value.args:
             top = traceback
-            while top.tb_next:
+            while top.tb_next and top.tb_next.tb_frame:
                 top = top.tb_next
             value = AssertionError(make_assert_message(top.tb_frame))
         print_exception(type, value, traceback)
     else:
         _old_excepthook(type, value, traceback)
 sys.excepthook = assert_excepthook
-
-def foo():
-    assert 1 > 2
-
-def main():
-    foo()
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
-    # main()
-    # assert 1 > 2
-    # a = 1; b = 2; c = 'foo'; d = None
-    # assert a > b
-    # assert c is None
-    # assert a == b == c
