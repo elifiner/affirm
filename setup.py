@@ -7,7 +7,7 @@ config = {
     'name': 'affirm',
     'author': 'Eli Finer',
     'author_email': 'eli.finer@gmail.com',
-    'version': '0.9',
+    'version': '0.9.1',
     'py_modules': ['affirm'],
     'description': '''\
 Improved error messages for Python assert statements.
