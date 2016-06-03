@@ -5,6 +5,11 @@ This small library improves Python `assert` error messages to contain more usefu
 
 I like to use `assert`'s liberaly thoughout my code to document my assumptions and when one of them fails, I really like to know as much as possible about what failed and why.
 
+Installation
+------------
+
+    $ pip install affirm
+
 Using the `assert` statement
 ----------------------------
 
