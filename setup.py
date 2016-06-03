@@ -5,14 +5,12 @@ except ImportError:
 
 config = {
     'name': 'affirm',
+    'url': 'https://github.com/gooli/affirm',
     'author': 'Eli Finer',
     'author_email': 'eli.finer@gmail.com',
-    'version': '0.9.1',
+    'version': '0.9.1c',
     'py_modules': ['affirm'],
-    'description': '''\
-Improved error messages for Python assert statements.
-See: http://github.com/gooli/affirm
-'''
+    'description': 'Improved error messages for Python assert statements'
 }
 
 setup(**config)
