@@ -12,6 +12,7 @@ import unittest
 TEMPFILE = '_temp_test.py'
 
 SOURCE = '''
+import math
 import affirm
 a = 1
 b = 2
@@ -40,12 +41,14 @@ suite = unittest.TestSuite()
 def test(statement, expected_message):
     suite.addTest(TestAssert(statement, expected_message))
 
-test('assert 1 > 2', 'AssertionError: assertion (1 > 2) failed')
-test('assert a > b', 'AssertionError: assertion (a > b) failed with a=1, b=2')
-test('assert a + b > a + b * 2', 'AssertionError: assertion (a + b > a + b * 2) failed with a=1, b=2')
-test('assert a is None', 'AssertionError: assertion (a is None) failed with a=1')
-test('assert c is not None', 'AssertionError: assertion (c is not None) failed with c=None')
-test('assert d == "bar"', 'AssertionError: assertion (d == "bar") failed with d=\'foo\'')
+test('assert 1 > 2', 'AssertionError: assertion 1 > 2 failed')
+test('assert a > b', 'AssertionError: assertion a > b failed with a=1, b=2')
+test('assert a + b > a + b * 2', 'AssertionError: assertion a + b > a + b * 2 failed with a=1, b=2')
+test('assert a is None', 'AssertionError: assertion a is None failed with a=1')
+test('assert c is not None', 'AssertionError: assertion c is not None failed with c=None')
+test('assert d == "bar"', 'AssertionError: assertion d == "bar" failed with d=\'foo\'')
+test('assert sum([a, b]) == 1', 'AssertionError: assertion sum([a, b]) == 1 failed with a=1, b=2')
+test('assert math.log(a, b) == 1', 'AssertionError: assertion math.log(a, b) == 1 failed with a=1, b=2')
 
 if __name__ == '__main__':
     runner = unittest.TextTestRunner(verbosity=3)

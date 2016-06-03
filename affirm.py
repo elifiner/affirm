@@ -20,6 +20,7 @@
 
 import re
 import ast
+import types
 import inspect
 from collections import OrderedDict
 
@@ -29,12 +30,12 @@ def make_assert_message(frame, regex):
             self.names = []
         def find(self, tree, frame):
             self.visit(tree)
+            nothing = object()
             deref = OrderedDict()
             for name in self.names:
-                if name in frame.f_locals:
-                    deref[name] = repr(frame.f_locals[name])
-                elif name in frame.f_globals:
-                    deref[name] = repr(frame.f_globals[name])
+                value = frame.f_locals.get(name, nothing) or frame.f_globals.get(name, nothing)
+                if value is not nothing and not isinstance(value, (types.ModuleType, types.FunctionType)):
+                    deref[name] = repr(value)
             return deref
         def visit_Name(self, node):
             self.names.append(node.id)
@@ -50,7 +51,7 @@ def make_assert_message(frame, regex):
     deref_str = ''
     if deref:
         deref_str = ' with ' + ', '.join('{}={}'.format(k, v) for k, v in deref.items())
-    return 'assertion ({}) failed{}'.format(condition, deref_str)
+    return 'assertion {} failed{}'.format(condition, deref_str)
 
 import sys
 _old_excepthook = sys.excepthook
@@ -69,6 +70,8 @@ def assert_excepthook(type, value, traceback):
 sys.excepthook = assert_excepthook
 
 def affirm(condition):
+    if not __debug__:
+        return
     if condition:
         return
     else:
