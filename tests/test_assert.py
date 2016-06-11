@@ -9,7 +9,8 @@ import unittest
 #
 # This is ugly but it works.
 
-TEMPFILE = '_temp_test.py'
+PACKAGE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+TEMPFILE = os.path.join(PACKAGE_DIR, '_temp_test.py')
 
 SOURCE = '''
 import math
