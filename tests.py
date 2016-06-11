@@ -49,6 +49,7 @@ test('assert c is not None', 'AssertionError: assertion c is not None failed wit
 test('assert d == "bar"', 'AssertionError: assertion d == "bar" failed with d=\'foo\'')
 test('assert sum([a, b]) == 1', 'AssertionError: assertion sum([a, b]) == 1 failed with a=1, b=2')
 test('assert math.log(a, b) == 1', 'AssertionError: assertion math.log(a, b) == 1 failed with a=1, b=2')
+test('assert 1 == 2, "some message"', 'AssertionError: some message')
 
 if __name__ == '__main__':
     runner = unittest.TextTestRunner(verbosity=3)
