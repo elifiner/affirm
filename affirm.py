@@ -25,6 +25,15 @@ import inspect
 from collections import OrderedDict
 
 def make_assert_message(frame, regex):
+    def extract_condition():
+        code_context = inspect.getframeinfo(frame)[3]
+        if not code_context:
+            return ''
+        match = re.search(regex, code_context[0])
+        if not match:
+            return ''
+        return match.group(1).strip()
+
     class ReferenceFinder(ast.NodeVisitor):
         def __init__(self):
             self.names = []
@@ -40,13 +49,9 @@ def make_assert_message(frame, regex):
         def visit_Name(self, node):
             self.names.append(node.id)
 
-    code_context = inspect.getframeinfo(frame)[3]
-    if not code_context:
-        return ''
-    match = re.search(regex, code_context[0])
-    if not match:
-        return ''
-    condition = match.group(1).strip()
+    condition = extract_condition()
+    if not condition:
+        return
     deref = ReferenceFinder().find(ast.parse(condition), frame)
     deref_str = ''
     if deref:
