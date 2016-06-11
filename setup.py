@@ -8,7 +8,7 @@ config = {
     'url': 'https://github.com/gooli/affirm',
     'author': 'Eli Finer',
     'author_email': 'eli.finer@gmail.com',
-    'version': '0.9.1c',
+    'version': '0.9.2',
     'py_modules': ['affirm'],
     'description': 'Improved error messages for Python assert statements'
 }
